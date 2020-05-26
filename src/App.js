@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Cards from './Cards.js';
 import StatsPanel from './StatsPanel.js';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends Component {
   constructor(props) {

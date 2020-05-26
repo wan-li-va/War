@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from 'react-bootstrap/Button';
 
 export default class Cards extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ export default class Cards extends Component {
         let winList;
         console.log(this.state)
         if (this.state.myCard > this.state.otherCard) {
-            winList = ([...this.state.myCards].concat(this.state.myLoseList)).concat( this.state.otherLoseList );
+            winList = ([...this.state.myCards].concat(this.state.myLoseList)).concat(this.state.otherLoseList);
             this.setState({
                 myCards: winList,
                 isPlay: true,
@@ -56,7 +57,7 @@ export default class Cards extends Component {
             })
         }
         else if (this.state.myCard < this.state.otherCard) {
-            winList = ([...this.state.otherCards].concat(this.state.otherLoseList)).concat( this.state.myLoseList );
+            winList = ([...this.state.otherCards].concat(this.state.otherLoseList)).concat(this.state.myLoseList);
             this.setState({
                 otherCards: winList,
                 isPlay: true,
@@ -94,15 +95,15 @@ export default class Cards extends Component {
     }
 
     end = result => {
-        if(result === "win") {
-            this.setState ({
+        if (result === "win") {
+            this.setState({
                 result: "win",
                 isNext: false,
                 isPlay: false
             })
         }
         else {
-            this.setState ({
+            this.setState({
                 result: "lose",
                 isNext: false,
                 isPlay: false,
@@ -110,17 +111,25 @@ export default class Cards extends Component {
         }
     }
 
-        render() {
-    return (
-        <div>
-            <button onClick={this.play} disabled={this.state.isNext}>play</button>
-            <button onClick={this.next} disabled={this.state.isPlay}>next</button>
-            <p>my # cards: {this.state.myCards.length}</p>
-            <p>other # cards: {this.state.otherCards.length}</p>
-            <p>myCard: {this.state.myCard}</p>
-            <p>otherCard: {this.state.otherCard}</p>
-            <p>You {this.state.result}!</p>
-        </div>
-    )
-}
+    render() {
+        return (
+            <div>
+                <div className="buttons">
+                    <Button onClick={this.play} disabled={this.state.isNext}>play</Button>
+                    <Button onClick={this.next} disabled={this.state.isPlay}>next</Button>
+                </div>
+                <div className="Cards">
+                    <div className="player">
+                        <p>my # cards: {this.state.myCards.length}</p>
+                        <p>myCard: {this.state.myCard}</p>
+                    </div>
+                    <div className="player">
+                        <p>other # cards: {this.state.otherCards.length}</p>
+                        <p>otherCard: {this.state.otherCard}</p>
+                        <p>{this.state.result}</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }

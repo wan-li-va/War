@@ -1,5 +1,36 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  background-color: lightpink;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  margin-top: 2vh;
+}
+
+.buttons {
+  margin-top: 5vh;
+}
+
+.Cards {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.player {
+  flex-direction: column;
+  margin: 5vw;
+  background-color: lightgreen;
+  padding: 2vw;
+  border-radius: 15%;
 }
 
 .App-logo {
