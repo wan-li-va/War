@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Deployed app at http://wan-li-va.github.io/War
+
 ## Available Scripts
 
 In the project directory, you can run:
