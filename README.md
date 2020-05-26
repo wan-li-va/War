@@ -1,6 +1,12 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Deployed app at http://wan-li-va.github.io/War
+## Deployed App
+
+Link to deployed app on Github Pages: http://wan-li-va.github.io/War
+
+## Other Notes
+
+Currently, the game implementation is incredibly simple. The "war" function, in which two cards have the same value so four extra cards are drawn, should work. Ending the game has not been tested yet, and restarting is not yet a functionality. For simplicity purposes, the cards are currently just a number 1-13, in place of a card object with values Ace-King. 
 
 ## Available Scripts
 
