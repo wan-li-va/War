@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/War/static/css/main.5f361e03.chunk.css",
+    "main.js": "/War/static/js/main.fc802e6f.chunk.js",
+    "main.js.map": "/War/static/js/main.fc802e6f.chunk.js.map",
+    "runtime-main.js": "/War/static/js/runtime-main.15aa53f8.js",
+    "runtime-main.js.map": "/War/static/js/runtime-main.15aa53f8.js.map",
+    "static/js/2.939ccd3e.chunk.js": "/War/static/js/2.939ccd3e.chunk.js",
+    "static/js/2.939ccd3e.chunk.js.map": "/War/static/js/2.939ccd3e.chunk.js.map",
+    "index.html": "/War/index.html",
+    "precache-manifest.81546e798c2277a074729c08b8a991cc.js": "/War/precache-manifest.81546e798c2277a074729c08b8a991cc.js",
+    "service-worker.js": "/War/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/War/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.939ccd3e.chunk.js.LICENSE.txt": "/War/static/js/2.939ccd3e.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/War/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.15aa53f8.js",
+    "static/js/2.939ccd3e.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.fc802e6f.chunk.js"
+  ]
+}
