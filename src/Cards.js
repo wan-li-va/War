@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
+import CardsAtRisk from './CardsAtRisk.js';
+import PlayingCard from './PlayingCard.js';
+import StatsPanel from './StatsPanel.js';
+import './Cards.css'
 
 export default class Cards extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            myCards: [],
-            otherCards: [],
+            // myCards: this.props.cards.slice(0, 26),
+            // otherCards: this.props.cards.slice(26, 53),
+            otherCards: this.props.cards.slice(0, 1),
+            myCards: this.props.cards.slice(1, 53),
             myCard: "",
             otherCard: "",
             isPlay: true,
@@ -14,23 +20,15 @@ export default class Cards extends Component {
             myLoseList: [],
             otherLoseList: [],
             result: "",
+            wins: 0,
+            totalGames: 0,
+            firstGame: true,
         }
     }
 
-    componentDidMount = () => {
-        this.setState({
-            myCards: this.props.cards.slice(0, 26),
-            otherCards: this.props.cards.slice(26, 53),
-            myCard: "",
-            otherCard: "",
-            myLoseList: [],
-            otherLoseList: [],
-        })
-    }
-
     play = () => {
-        var myCurCard = this.state.myCards[0] //this.state.myLoseList.length];  // must set loseList to 0 after next
-        var otherCurCard = this.state.otherCards[0] //this.state.otherLoseList.length];
+        var myCurCard = this.state.myCards[0];
+        var otherCurCard = this.state.otherCards[0];
         this.setState({
             myCard: myCurCard,
             otherCard: otherCurCard,
@@ -45,21 +43,24 @@ export default class Cards extends Component {
 
     next = () => {
         let winList;
-        console.log(this.state)
-        if (this.state.myCard > this.state.otherCard) {
-            winList = ([...this.state.myCards].concat(this.state.myLoseList)).concat(this.state.otherLoseList);
+        let myDeckLength = this.state.myCards.length;
+        let otherDeckLength = this.state.otherCards.length;
+        if (this.state.myCard.value !== this.state.otherCard.value) {
+            if (this.state.myCard.value > this.state.otherCard.value) {
+                winList = ([...this.state.myCards].concat(this.state.myLoseList)).concat(this.state.otherLoseList);
+                myDeckLength = winList.length;
+                this.setState({
+                    myCards: winList,
+                })
+            }
+            else {//if (this.state.myCard.value < this.state.otherCard.value) {
+                winList = ([...this.state.otherCards].concat(this.state.otherLoseList)).concat(this.state.myLoseList);
+                otherDeckLength = winList.length;
+                this.setState({
+                    otherCards: winList,
+                })
+            }
             this.setState({
-                myCards: winList,
-                isPlay: true,
-                isNext: false,
-                myLoseList: [],
-                otherLoseList: [],
-            })
-        }
-        else if (this.state.myCard < this.state.otherCard) {
-            winList = ([...this.state.otherCards].concat(this.state.otherLoseList)).concat(this.state.myLoseList);
-            this.setState({
-                otherCards: winList,
                 isPlay: true,
                 isNext: false,
                 myLoseList: [],
@@ -67,48 +68,60 @@ export default class Cards extends Component {
             })
         }
         else {
-            if (this.state.myCards.length < 4) {
-                this.end("lose");
-            }
-            else if (this.state.otherCards.length < 4) {
-                this.end("win");
-            }
+            if (this.state.myCards.length < 4) { this.end("lose"); }
+            else if (this.state.otherCards.length < 4) { this.end("win"); }
             else {
                 var myCurCard = this.state.myCards[3];
                 var otherCurCard = this.state.otherCards[3];
                 var myCurCards = [...this.state.myCards];
-                var myLength = myCurCards.length;
                 var otherCurCards = [...this.state.otherCards];
-                var otherLength = otherCurCards.length;
                 this.setState({
                     myCard: myCurCard,
                     otherCard: otherCurCard,
                     myLoseList: [...this.state.myLoseList].concat(myCurCards.slice(0, 4)),
                     otherLoseList: [...this.state.otherLoseList].concat(otherCurCards.slice(0, 4)),
-                    myCards: this.state.myCards.slice(4, myLength),
-                    otherCards: this.state.otherCards.slice(4, otherLength),
-                    // isNext: false,
-                    // isPlay: true,
+                    myCards: this.state.myCards.slice(4, myCurCards.length),
+                    otherCards: this.state.otherCards.slice(4, otherCurCards.length),
                 })
             }
         }
+        if (myDeckLength === 0) { this.end("lose") }
+        if (otherDeckLength === 0) { this.end("win") }
     }
 
     end = result => {
-        if (result === "win") {
-            this.setState({
-                result: "win",
-                isNext: false,
-                isPlay: false
-            })
+        let message;
+        if(result === "win") {
+            message = "Congratulations, you won the war!";
+            this.setState({ wins: this.state.wins+1, totalGames: this.state.totalGames+1 })
         }
         else {
-            this.setState({
-                result: "lose",
-                isNext: false,
-                isPlay: false,
-            })
+            message = "Sorry, you lost the war :(";
+            this.setState({ totalGames: this.state.totalGames+1 })
         }
+        this.setState({
+            result: message,
+            isNext: true,
+            isPlay: true,
+            firstGame: false,
+        })
+    }
+
+    restart = () => {
+        this.props.restart();
+        this.setState({
+            myCards: this.props.cards.slice(0, 26),
+            otherCards: this.props.cards.slice(26, 53),
+            myCard: "",
+            otherCard: "",
+            isPlay: true,
+            isNext: false,
+            myLoseList: [],
+            otherLoseList: [],
+            result: "",
+            firstGame: false,
+            totalGames: this.state.totalGames+1,
+        })
     }
 
     render() {
@@ -117,18 +130,37 @@ export default class Cards extends Component {
                 <div className="buttons">
                     <Button onClick={this.play} disabled={this.state.isNext}>play</Button>
                     <Button onClick={this.next} disabled={this.state.isPlay}>next</Button>
+                    <Button onClick={this.restart}>restart</Button>
                 </div>
+                <StatsPanel 
+                    wins={this.state.wins}
+                    totalGames={this.state.totalGames} 
+                    firstGame={this.state.firstGame} />
                 <div className="Cards">
-                    <div className="player">
-                        <p>my # cards: {this.state.myCards.length}</p>
-                        <p>myCard: {this.state.myCard}</p>
+                    <p className="numCards"> Number of Cards in My Deck: {this.state.myCards.length}</p>
+                    <div className="CurrentCard">
+                        <p>My Current Card</p>
+                        <PlayingCard className="CurPlayingCard"
+                            curCard={this.state.myCard} />
                     </div>
-                    <div className="player">
-                        <p>other # cards: {this.state.otherCards.length}</p>
-                        <p>otherCard: {this.state.otherCard}</p>
-                        <p>{this.state.result}</p>
+                    <div className="CurrentCard">
+                        <p>Opponent's Current Card</p>
+                        <PlayingCard className="CurPlayingCard"
+                            curCard={this.state.otherCard} />
+                    </div>
+                    <p className="numCards">Number of Cards in Opponent's Deck: {this.state.otherCards.length}</p>
+                </div>
+                <div className="Risk">
+                    <div className="atRisk">
+                        <p>My Cards at Risk</p>
+                        <CardsAtRisk loseList={this.state.myLoseList} />
+                    </div>
+                    <div className="atRisk">
+                        <p>Opponent's Cards at Risk</p>
+                        <CardsAtRisk loseList={this.state.otherLoseList} />
                     </div>
                 </div>
+                <p>{this.state.result}</p>
             </div>
         )
     }

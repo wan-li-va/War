@@ -1,18 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-export default class StatsPanel extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                
-            </div>
-        )
-    }
+const StatsPanel = props => {
+    return (
+        <div className="StatsPanel">
+            {props.firstGame ?
+                <p>Win Percentage: N/A</p> :
+                <p>Win Percentage: {Math.floor(props.wins / props.totalGames * 100)}% </p>
+            }
+        </div>
+    )
 }
+
+export default StatsPanel;

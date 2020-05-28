@@ -1,0 +1,36 @@
+.CurrentCard {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-top: 3vh;
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
+.numCards {
+    display: flex;
+    flex: 1;
+    background-color: lightgray;
+    margin: 3vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.Risk {
+    display: flex;
+    flex-direction: row;
+}
+
+.atRisk {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 4vw;
+    margin-right: 4vw;
+    margin-top: 3vh;
+}
+
+.buttons {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+  }
