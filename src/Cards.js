@@ -4,6 +4,7 @@ import CardsAtRisk from './CardsAtRisk.js';
 import PlayingCard from './PlayingCard.js';
 import StatsPanel from './StatsPanel.js';
 import './Cards.css'
+import firebase from './FirebaseConfig.js'
 
 export default class Cards extends Component {
     constructor(props) {
@@ -23,7 +24,21 @@ export default class Cards extends Component {
             wins: 0,
             totalGames: 0,
             firstGame: true,
+            database: firebase.database(),
         }
+    }
+
+    componentDidMount = () => {
+        this.state.database.ref('wins').once('value', snapshot => {
+            if (snapshot && snapshot.exists()) {
+                this.setState({ wins: snapshot.val() })
+            }
+        })
+        this.state.database.ref('totalGames').once('value', snapshot => {
+            if (snapshot && snapshot.exists()) {
+                this.setState({ totalGames: snapshot.val(), firstGame: false })
+            }
+        })
     }
 
     play = () => {
@@ -91,13 +106,15 @@ export default class Cards extends Component {
 
     end = result => {
         let message;
-        if(result === "win") {
+        var newWins = this.state.wins + 1;
+        var newGames = this.state.totalGames + 1;
+        if (result === "win") {
             message = "Congratulations, you won the war!";
-            this.setState({ wins: this.state.wins+1, totalGames: this.state.totalGames+1 })
+            this.setState({ wins: newWins, totalGames: newGames })
         }
         else {
             message = "Sorry, you lost the war :(";
-            this.setState({ totalGames: this.state.totalGames+1 })
+            this.setState({ totalGames: this.state.totalGames + 1 })
         }
         this.setState({
             result: message,
@@ -105,6 +122,8 @@ export default class Cards extends Component {
             isPlay: true,
             firstGame: false,
         })
+        this.state.database.ref('wins').set(newWins)
+        this.state.database.ref('totalGames').set(newGames)
     }
 
     restart = () => {
@@ -120,8 +139,10 @@ export default class Cards extends Component {
             otherLoseList: [],
             result: "",
             firstGame: false,
-            totalGames: this.state.totalGames+1,
+            totalGames: this.state.totalGames + 1,
         })
+        var newGames = this.state.totalGames + 1;
+        this.state.database.ref('totalGames').set(newGames)
     }
 
     render() {
@@ -132,9 +153,9 @@ export default class Cards extends Component {
                     <Button onClick={this.next} disabled={this.state.isPlay}>next</Button>
                     <Button onClick={this.restart}>restart</Button>
                 </div>
-                <StatsPanel 
+                <StatsPanel
                     wins={this.state.wins}
-                    totalGames={this.state.totalGames} 
+                    totalGames={this.state.totalGames}
                     firstGame={this.state.firstGame} />
                 <div className="Cards">
                     <p className="numCards"> Number of Cards in My Deck: {this.state.myCards.length}</p>

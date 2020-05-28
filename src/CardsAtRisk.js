@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import Card from 'react-bootstrap/Card';
+import React from 'react';
 import PlayingCard from './PlayingCard';
 
 const CardsAtRisk = props => {
