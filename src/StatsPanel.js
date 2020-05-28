@@ -1,6 +1,7 @@
 import React from 'react';
 
 const StatsPanel = props => {
+
     return (
         <div className="StatsPanel">
             {props.firstGame ?
