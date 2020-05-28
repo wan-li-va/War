@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    margin-top: 3vh;
+    margin-top: 1vh;
     margin-right: 1vw;
     margin-left: 1vw;
 }
@@ -10,10 +10,12 @@
 .numCards {
     display: flex;
     flex: 1;
-    background-color: lightgray;
     margin: 3vw;
     justify-content: center;
     align-items: center;
+    color: aliceblue;
+    outline: aliceblue solid 2px;
+    outline-offset: 2vh;
 }
 
 .Risk {
@@ -33,4 +35,25 @@
 .buttons {
     margin-top: 2vh;
     margin-bottom: 2vh;
+  }
+
+  .button{
+      margin-left: 1vw;
+      margin-right: 1vw;
+  }
+
+  .restartButton {
+      margin-right: 17vw;
+  }
+
+  .signOutButton {
+      margin-left: 17vw;
+  }
+
+  .StatsPanel {
+      color: aliceblue;
+  }
+
+  .textColor {
+      color: aliceblue;
   }

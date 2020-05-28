@@ -3,8 +3,7 @@ import Button from 'react-bootstrap/Button';
 import CardsAtRisk from './CardsAtRisk.js';
 import PlayingCard from './PlayingCard.js';
 import StatsPanel from './StatsPanel.js';
-import './Cards.css'
-import firebase from './FirebaseConfig.js'
+import './Cards.css';
 
 export default class Cards extends Component {
     constructor(props) {
@@ -24,18 +23,19 @@ export default class Cards extends Component {
             wins: 0,
             totalGames: 0,
             firstGame: true,
-            database: firebase.database(),
+            database: this.props.database,
         }
     }
 
+    // this is necessary because passing it as a prop through app does not load the data correctly from firebase
     componentDidMount = () => {
-        this.state.database.ref('wins').once('value', snapshot => {
-            if (snapshot && snapshot.exists()) {
+        this.state.database.ref('wins/' + this.props.uid).once('value', snapshot => {
+            if (snapshot.exists()) {
                 this.setState({ wins: snapshot.val() })
             }
         })
-        this.state.database.ref('totalGames').once('value', snapshot => {
-            if (snapshot && snapshot.exists()) {
+        this.state.database.ref('totalGames/' + this.props.uid).once('value', snapshot => {
+            if (snapshot.exists()) {
                 this.setState({ totalGames: snapshot.val(), firstGame: false })
             }
         })
@@ -122,8 +122,8 @@ export default class Cards extends Component {
             isPlay: true,
             firstGame: false,
         })
-        this.state.database.ref('wins').set(newWins)
-        this.state.database.ref('totalGames').set(newGames)
+        this.state.database.ref('wins/' + this.props.uid).set(newWins)
+        this.state.database.ref('totalGames/' + this.props.uid).set(newGames)
     }
 
     restart = () => {
@@ -142,30 +142,32 @@ export default class Cards extends Component {
             totalGames: this.state.totalGames + 1,
         })
         var newGames = this.state.totalGames + 1;
-        this.state.database.ref('totalGames').set(newGames)
+        this.state.database.ref('totalGames/' + this.props.uid).set(newGames)
     }
 
     render() {
         return (
-            <div>
+            <div className="CardPanel">
                 <div className="buttons">
-                    <Button onClick={this.play} disabled={this.state.isNext}>play</Button>
-                    <Button onClick={this.next} disabled={this.state.isPlay}>next</Button>
-                    <Button onClick={this.restart}>restart</Button>
+                    <Button className="restartButton" onClick={this.restart}>restart</Button>
+                    <Button className="button" onClick={this.play} disabled={this.state.isNext}>Flip Card</Button>
+                    <Button className="button" onClick={this.next} disabled={this.state.isPlay}>Continue</Button>
+                    <Button className="signOutButton" onClick={this.props.signOut}>Sign out</Button>
                 </div>
                 <StatsPanel
                     wins={this.state.wins}
                     totalGames={this.state.totalGames}
-                    firstGame={this.state.firstGame} />
+                    firstGame={this.state.firstGame}
+                    displayName={this.props.displayName} />
                 <div className="Cards">
                     <p className="numCards"> Number of Cards in My Deck: {this.state.myCards.length}</p>
                     <div className="CurrentCard">
-                        <p>My Current Card</p>
+                        <p className="textColor">My Current Card</p>
                         <PlayingCard className="CurPlayingCard"
                             curCard={this.state.myCard} />
                     </div>
                     <div className="CurrentCard">
-                        <p>Opponent's Current Card</p>
+                        <p className="textColor">Opponent's Current Card</p>
                         <PlayingCard className="CurPlayingCard"
                             curCard={this.state.otherCard} />
                     </div>
@@ -173,11 +175,11 @@ export default class Cards extends Component {
                 </div>
                 <div className="Risk">
                     <div className="atRisk">
-                        <p>My Cards at Risk</p>
+                        <p className="textColor">My Cards at Risk</p>
                         <CardsAtRisk loseList={this.state.myLoseList} />
                     </div>
                     <div className="atRisk">
-                        <p>Opponent's Cards at Risk</p>
+                        <p className="textColor">Opponent's Cards at Risk</p>
                         <CardsAtRisk loseList={this.state.otherLoseList} />
                     </div>
                 </div>

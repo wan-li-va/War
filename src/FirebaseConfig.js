@@ -16,6 +16,6 @@ const config = {
 // require('dotenv').config();
 // var config = process.env.REACT_APP_FIREBASECONFIG;
 
-firebase.initializeApp(config)
+var firebaseApp = firebase.initializeApp(config)
 
-export default firebase;
+export default firebaseApp;
