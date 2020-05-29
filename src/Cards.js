@@ -148,17 +148,18 @@ export default class Cards extends Component {
     render() {
         return (
             <div className="CardPanel">
-                <div className="buttons">
-                    <Button className="restartButton" onClick={this.restart}>restart</Button>
-                    <Button className="button" onClick={this.play} disabled={this.state.isNext}>Flip Card</Button>
-                    <Button className="button" onClick={this.next} disabled={this.state.isPlay}>Continue</Button>
-                    <Button className="signOutButton" onClick={this.props.signOut}>Sign out</Button>
-                </div>
                 <StatsPanel
                     wins={this.state.wins}
                     totalGames={this.state.totalGames}
                     firstGame={this.state.firstGame}
                     displayName={this.props.displayName} />
+                <div className="buttons">
+                    <Button className="restartButton" variant="danger" onClick={this.restart}>Restart</Button>
+                    <Button className="button" onClick={this.play} disabled={this.state.isNext}>Flip Card</Button>
+                    <Button className="button" variant="success" onClick={this.next} disabled={this.state.isPlay}>Continue</Button>
+                    <Button className="signOutButton" variant="danger" onClick={this.props.signOut}>Sign out</Button>
+                </div>
+                <h5 className="congrats">{this.state.result} </h5>
                 <div className="Cards">
                     <p className="numCards"> Number of Cards in My Deck: {this.state.myCards.length}</p>
                     <div className="CurrentCard">
@@ -183,7 +184,6 @@ export default class Cards extends Component {
                         <CardsAtRisk loseList={this.state.otherLoseList} />
                     </div>
                 </div>
-                <p>{this.state.result}</p>
             </div>
         )
     }

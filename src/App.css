@@ -17,6 +17,7 @@ h1 {
   padding-left: 10vw;
   padding-right: 10vw;
   margin-top: 2vh;
+  border-bottom: 0.7vh solid green;
 }
 
 .CardPanel {
@@ -39,5 +40,15 @@ h1 {
 .CardsAtRisk {
   display: flex;
   flex-direction: column;
-  overflow-y: 40vh;
+  overflow-y: auto;
+  height: 37vh;
+}
+
+.signIn {
+  color: aliceblue;
+  margin-top: 10vh;
+}
+
+.signInButton {
+  margin-top: 3vh;
 }

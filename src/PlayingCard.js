@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card'
 const PlayingCard = props => {
     return (
         <div className="Card">
-        <Card>
+        <Card >
             <Card.Body>
                 <Card.Text>
                         <em>{props.curCard.name}</em>

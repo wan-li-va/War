@@ -2,8 +2,11 @@ import firebase from "firebase";
 import "firebase/auth";
 import "firebase/firestore";
 
+require('dotenv').config();
+var key = process.env.REACT_APP_KEY;
+
 const config = {
-    apiKey: "AIzaSyBxFuWybPT9zHpJeJXQzdB-b1Os1lxstkY",
+    apiKey: key,
     authDomain: "wargame-e3497.firebaseapp.com",
     databaseURL: "https://wargame-e3497.firebaseio.com",
     projectId: "wargame-e3497",
@@ -12,9 +15,6 @@ const config = {
     appId: "1:190741463412:web:9c335f4eb4602ec89b6c21",
     measurementId: "G-RBSMEN97MD"
 };
-
-// require('dotenv').config();
-// var config = process.env.REACT_APP_FIREBASECONFIG;
 
 var firebaseApp = firebase.initializeApp(config)
 

@@ -3,8 +3,8 @@
     flex-direction: column;
     flex: 1;
     margin-top: 1vh;
-    margin-right: 1vw;
-    margin-left: 1vw;
+    margin-right: 3vw;
+    margin-left: 3vw;
 }
 
 .numCards {
@@ -21,6 +21,7 @@
 .Risk {
     display: flex;
     flex-direction: row;
+    overflow-y: auto;
 }
 
 .atRisk {
@@ -56,4 +57,8 @@
 
   .textColor {
       color: aliceblue;
+  }
+
+  .congrats {
+      color: yellow
   }

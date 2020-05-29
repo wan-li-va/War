@@ -11,13 +11,10 @@ export default class App extends Component {
     this.state = {
       cards: [],
       database: firebase.database(),
-      // cards: [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 
-      //   8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13]
     }
   }
 
   componentWillMount = () => {
-    // const firebaseAppAuth = firebase.auth();
     let deck = [];
     let deckIndex = 0;
     for (let i = 13; i > 0; i--) {
@@ -83,11 +80,11 @@ export default class App extends Component {
 
     return (
       <div className="App">
-        <h1>Welcome to War!</h1>
+        <h1>PLAY AT YOUR OWN RISK: <span className="congrats">WAR</span></h1>
         {
           user
             ? <div></div>
-            : <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+            : <p className="signIn">Please sign in.</p>
         }
         {
           user ?
@@ -98,7 +95,7 @@ export default class App extends Component {
           uid={user.uid} 
           displayName={user.displayName} 
           signOut={signOut}/>
-          : <p>Please sign in.</p>
+          : <Button onClick={signInWithGoogle} className="signInButton">Sign in with Google</Button>
         }
       </div>
     );
