@@ -4,6 +4,8 @@ import CardsAtRisk from './CardsAtRisk.js';
 import PlayingCard from './PlayingCard.js';
 import StatsPanel from './StatsPanel.js';
 import './Cards.css';
+import * as youWin from './youWin.gif';
+import * as youLose from './youLose.gif';
 
 export default class Cards extends Component {
     constructor(props) {
@@ -24,6 +26,8 @@ export default class Cards extends Component {
             totalGames: 0,
             firstGame: true,
             database: this.props.database,
+            isPlaying: true,
+            didWin: false,
         }
     }
 
@@ -68,7 +72,7 @@ export default class Cards extends Component {
                     myCards: winList,
                 })
             }
-            else {//if (this.state.myCard.value < this.state.otherCard.value) {
+            else {
                 winList = ([...this.state.otherCards].concat(this.state.otherLoseList)).concat(this.state.myLoseList);
                 otherDeckLength = winList.length;
                 this.setState({
@@ -110,17 +114,18 @@ export default class Cards extends Component {
         var newGames = this.state.totalGames + 1;
         if (result === "win") {
             message = "Congratulations, you won the war!";
-            this.setState({ wins: newWins, totalGames: newGames })
+            this.setState({ wins: newWins, totalGames: newGames, didWin: true })
         }
         else {
             message = "Sorry, you lost the war :(";
-            this.setState({ totalGames: this.state.totalGames + 1 })
+            this.setState({ totalGames: this.state.totalGames + 1, didWin: false })
         }
         this.setState({
             result: message,
             isNext: true,
             isPlay: true,
             firstGame: false,
+            isPlaying: false,
         })
         this.state.database.ref('wins/' + this.props.uid).set(newWins)
         this.state.database.ref('totalGames/' + this.props.uid).set(newGames)
@@ -140,6 +145,7 @@ export default class Cards extends Component {
             result: "",
             firstGame: false,
             totalGames: this.state.totalGames + 1,
+            isPlaying: true,
         })
         var newGames = this.state.totalGames + 1;
         this.state.database.ref('totalGames/' + this.props.uid).set(newGames)
@@ -174,16 +180,22 @@ export default class Cards extends Component {
                     </div>
                     <p className="numCards">Number of Cards in Opponent's Deck: {this.state.otherCards.length}</p>
                 </div>
-                <div className="Risk">
-                    <div className="atRisk">
-                        <p className="textColor">My Cards at Risk</p>
-                        <CardsAtRisk loseList={this.state.myLoseList} />
+                {(this.state.isPlaying) ?
+                    <div className="Risk">
+                        <div className="atRisk">
+                            <p className="textColor">My Cards at Risk</p>
+                            <CardsAtRisk loseList={this.state.myLoseList} />
+                        </div>
+                        <div className="atRisk">
+                            <p className="textColor">Opponent's Cards at Risk</p>
+                            <CardsAtRisk loseList={this.state.otherLoseList} />
+                        </div>
                     </div>
-                    <div className="atRisk">
-                        <p className="textColor">Opponent's Cards at Risk</p>
-                        <CardsAtRisk loseList={this.state.otherLoseList} />
-                    </div>
-                </div>
+                    :
+                    (this.state.didWin) ? 
+                    <img src={youWin} alt="You won" />
+                    : <img src={youLose} alt="You lost" />
+                }
             </div>
         )
     }

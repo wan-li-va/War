@@ -80,7 +80,7 @@ export default class App extends Component {
 
     return (
       <div className="App">
-        <h1>PLAY AT YOUR OWN RISK: <span className="congrats">WAR</span></h1>
+        <h1>A GAME OF LUCK: <span className="war">WAR</span></h1>
         {
           user
             ? <div></div>
